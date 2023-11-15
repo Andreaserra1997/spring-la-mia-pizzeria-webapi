@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Aggiungi Offerta')"></head>
+<body>
+<nav th:replace="fragments/navbar :: topNavbar('pizze')"></nav>
+<div class="container">
+  <h1>Aggiungi un offerta per la pizza <span th:text="${offer.pizza.name}"></span></h1>
+  <hr>
+
+  <form
+      id="offer-form"
+      th:action="@{/offers/create}"
+      method="POST"
+      th:object="${offer}"
+      class="row"
+  >
+    <input type="hidden" th:field="*{pizza}">
+    <div class="mb-3 col-12" th:insert="fragments/components :: formField('text', 'Nome Offerta', 'title')">
+    </div>
+    <div class="mb-3 col-6" th:insert="fragments/components :: formField('date', 'Inizio Offerta', 'startDate')">
+    </div>
+    <div class="mb-3 col-6" th:insert="fragments/components :: formField('date', 'Fine Offerta', 'endDate')">
+    </div>
+    <div>
+    <button class="btn btn-success" type="submit">Salva</button>
+    <a th:href="@{/pizze/show/{pizzaId}(pizzaId=*{pizza.id})}" class="btn btn-danger">Cancella</a>
+    </div>
+  </form>
+  <div>
+  </div>
+</div>
+</body>
+</html>

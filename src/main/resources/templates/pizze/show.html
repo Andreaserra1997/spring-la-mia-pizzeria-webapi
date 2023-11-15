@@ -7,6 +7,30 @@
   <h1 class="pt-2" th:text="*{name} + ' ' + *{price} + ' €'"></h1>
   <p class="pt-2" th:text="*{description}"></p>
   <img style="width: 400px; height: 400px; object-fit: cover;" th:src="*{urlImg}" alt="pizza">
+
+  <div class="d-flex align-items-center">
+  <h2 class="p-2">Crea nuova offerta speciale </h2>
+    <a th:href="@{/offers/create(pizzaId=*{id})}" class="btn btn-primary">
+      <i class="fa-solid fa-plus"></i>
+    </a>
+  </div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Inizio Offerta</th>
+      <th>Fine Offerta</th>
+      <th>Nome Offerta</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="offer : *{offers}" th:object="${offer}">
+      <td th:text="*{startDate}"></td>
+      <td th:text="*{endDate}"></td>
+      <td th:text="*{title}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <div th:if="*{offers.size() == 0}" class="alert alert-info">Non c'è nessuna offerta</div>
 </div>
 <div class="text-center">
   <a class="btn btn-primary mt-5" th:href="@{/pizze}">Torna alla lista delle Pizze</a>

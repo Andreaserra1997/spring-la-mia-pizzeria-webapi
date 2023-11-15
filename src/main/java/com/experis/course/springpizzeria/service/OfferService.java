@@ -23,7 +23,10 @@ public class OfferService {
         offer.setPizza(pizza);
         return offer;
     }
-    public Offer insertOfferIntoDB(Offer offer) {
+    public Offer saveOffer(Offer offer) {
         return offerRepository.save(offer);
+    }
+    public Offer getOffer(Integer id) throws RuntimeException{
+        return offerRepository.findById(id).orElseThrow(()->new RuntimeException("L'offerta con " + id + "non è stata trovata"));
     }
 }

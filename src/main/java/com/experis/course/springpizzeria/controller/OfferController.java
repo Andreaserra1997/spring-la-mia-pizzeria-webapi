@@ -32,7 +32,26 @@ public class OfferController {
         if (bindingResult.hasErrors()) {
             return "offers/form";
         }
-        Offer savedOffer = offerService.insertOfferIntoDB(formOffer);
+        Offer savedOffer = offerService.saveOffer(formOffer);
+        return "redirect:/pizze/show/" + formOffer.getPizza().getId();
+    }
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        try {
+            Offer offer = offerService.getOffer(id);
+            model.addAttribute("offer", offer);
+            return "offers/form";
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "offers/form";
+        }
+        Offer savedOffer = offerService.saveOffer(formOffer);
         return "redirect:/pizze/show/" + formOffer.getPizza().getId();
     }
 }

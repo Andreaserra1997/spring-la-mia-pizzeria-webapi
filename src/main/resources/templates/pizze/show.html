@@ -20,6 +20,7 @@
       <th>Inizio Offerta</th>
       <th>Fine Offerta</th>
       <th>Nome Offerta</th>
+      <th>Azioni</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +28,11 @@
       <td th:text="*{startDate}"></td>
       <td th:text="*{endDate}"></td>
       <td th:text="*{title}"></td>
+      <td>
+        <a class="btn btn-secondary" th:href="@{/offers/edit/{id}(id=*{id})}">
+          <i class="fa-solid fa-pen"></i>
+        </a>
+      </td>
     </tr>
     </tbody>
   </table>

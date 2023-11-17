@@ -28,6 +28,13 @@
       <textarea class="form-control" id="description" rows="5" th:field="*{description}"></textarea>
     </div>
 
+    <h3>Ingredienti</h3>
+
+    <div class="form-check" th:each="ingredient : ${ingredientList}">
+      <input class="form-check-input" type="checkbox" th:value="${ingredient.id}" th:id="|ingredient_${ingredient.id}|" th:field="*{ingredients}">
+      <label class="form-check-label" th:for="|ingredient_${ingredient.id}|" th:text="${ingredient.name}"></label>
+    </div>
+
     <div>
       <button class="btn btn-success" type="submit">Salva</button>
       <a th:href="@{/pizze}" class="btn btn-danger">Cancella</a>

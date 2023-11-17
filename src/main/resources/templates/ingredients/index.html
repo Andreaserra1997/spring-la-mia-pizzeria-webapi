@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Lista degli ingredienti')"></head>
+<body>
+<nav th:replace="fragments/navbar :: topNavbar('ingredients')"></nav>
+<div class="container">
+  <div th:replace="fragments/components :: message"></div>
+  <h1>Ingredienti</h1>
+  <hr>
+  <form
+      id="ingredient-form"
+      th:action="@{/ingredients}"
+      method="POST"
+      th:object="${ingredient}"
+      class="pb-4"
+  >
+    <div th:insert="fragments/components :: formField('text', 'Nuovo ingrediente', 'name')">
+    </div>
+    <button class="btn btn-primary mt-4" type="submit">Aggiungi l'ingrediente</button>
+  </form>
+  <ul class="list-group">
+    <li
+        class="list-group-item"
+        th:each="ingredient : ${ingredientList}"
+        th:text="${ingredient.name}"
+    >
+    </li>
+  </ul>
+</div>
+</body>
+</html>

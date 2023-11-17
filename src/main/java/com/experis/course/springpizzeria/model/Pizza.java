@@ -30,8 +30,11 @@ public class Pizza {
     private BigDecimal price;
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "pizza")
+    @OneToMany(mappedBy = "pizza", orphanRemoval = true)
     private List<Offer> offers = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Ingredient> ingredients;
 
     public Integer getId() {
         return id;
@@ -87,5 +90,13 @@ public class Pizza {
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

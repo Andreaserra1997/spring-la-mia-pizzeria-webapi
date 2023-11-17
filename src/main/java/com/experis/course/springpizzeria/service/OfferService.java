@@ -29,4 +29,7 @@ public class OfferService {
     public Offer getOffer(Integer id) throws RuntimeException{
         return offerRepository.findById(id).orElseThrow(()->new RuntimeException("L'offerta con " + id + "non è stata trovata"));
     }
+    public void deleteOffer(Offer offer) {
+        offerRepository.delete(offer);
+    }
 }

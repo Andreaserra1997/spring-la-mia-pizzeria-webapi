@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 
@@ -53,5 +54,17 @@ public class OfferController {
         }
         Offer savedOffer = offerService.saveOffer(formOffer);
         return "redirect:/pizze/show/" + formOffer.getPizza().getId();
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            Offer offerToDelete = offerService.getOffer(id);
+            offerService.deleteOffer(offerToDelete);
+            redirectAttributes.addFlashAttribute("message", "Offerta eliminata!");
+            return "redirect:/pizze/show/" + offerToDelete.getPizza().getId();
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

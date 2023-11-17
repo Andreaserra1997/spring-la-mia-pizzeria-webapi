@@ -2,6 +2,7 @@ package com.experis.course.springpizzeria.controller;
 
 import com.experis.course.springpizzeria.model.Pizza;
 import com.experis.course.springpizzeria.repository.PizzaRepository;
+import com.experis.course.springpizzeria.service.IngredientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class PizzaController {
     @Autowired
     private PizzaRepository pizzaRepository;
+    @Autowired
+    private IngredientService ingredientService;
 
     @GetMapping
     public String index(@RequestParam Optional<String> search, Model model) {
@@ -46,6 +50,7 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredientList", ingredientService.getAll());
         return "pizze/form";
     }
 
@@ -63,6 +68,7 @@ public class PizzaController {
         Optional<Pizza> result = pizzaRepository.findById(id);
         if (result.isPresent()) {
             model.addAttribute("pizza", result.get());
+            model.addAttribute("ingredientList", ingredientService.getAll());
             return "/pizze/form";
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La pizza con " + id + "non è stat trovata");
@@ -70,8 +76,9 @@ public class PizzaController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredientList", ingredientService.getAll());
             return "/pizze/form";
         }
         Pizza pizzaToEdit = pizzaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -79,15 +86,18 @@ public class PizzaController {
         pizzaToEdit.setPrice(formPizza.getPrice());
         pizzaToEdit.setUrlImg(formPizza.getUrlImg());
         pizzaToEdit.setDescription(formPizza.getDescription());
+        pizzaToEdit.setIngredients(formPizza.getIngredients());
 
         Pizza savedPizza = pizzaRepository.save(pizzaToEdit);
         return "redirect:/pizze/show/" + savedPizza.getId();
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Pizza pizzaToDelete = pizzaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         pizzaRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message",
+                "La pizza " + pizzaToDelete.getName() + " è stata eliminata!");
         return "redirect:/pizze";
     }
 }

@@ -8,7 +8,18 @@ INSERT INTO db_pizzeria.pizze (description, name, price, url_img) VALUES('Pollo 
 INSERT INTO db_pizzeria.pizze (description, name, price, url_img) VALUES('Una classica pizza con mozzarella e capperi.', 'Toscana', 5.50, 'https://www.eolieshop.it/wp-content/uploads/2020/05/pizza-con-capperi.jpg');
 INSERT INTO db_pizzeria.pizze (description, name, price, url_img) VALUES('Mozzarella di bufala, pomodoro fresco e basilico su una base croccante.', 'Bufalina', 7.00, 'https://www.tasteatlas.com/images/dishes/ee6654d7ee434fe79fde54ad4abe9102.jpg');
 INSERT INTO db_pizzeria.pizze (description, name, price, url_img) VALUES('Ispirata alla pasta carbonara, con pancetta, uova e formaggio pecorino.', 'Carbonara', 9.50, 'https://www.comedera.com/wp-content/uploads/2022/04/pizza-carbonara.jpg');
+
 INSERT INTO ingredients(name) VALUES('pomodoro');
 INSERT INTO ingredients(name) VALUES('mozzarella');
 INSERT INTO ingredients(name) VALUES('basilico');
 INSERT INTO ingredients(name) VALUES('olio');
+
+INSERT INTO roles (id, name) VALUES(1, 'ADMIN');
+INSERT INTO roles (id, name) VALUES(2, 'USER');
+
+INSERT INTO users (email, password, first_name, last_name, registered_at) VALUES ('andrea@mail.com', '{noop}andrea', 'Andrea', 'Serra', '2023-11-19 12:00');
+INSERT INTO users (email, password, first_name, last_name, registered_at) VALUES ('robi@mail.com', '{noop}robi', 'Roberta', 'Carboni', '2023-11-19 12:30');
+
+INSERT INTO users_roles (user_id, roles_id) VALUE(1, 1);
+INSERT INTO users_roles (user_id, roles_id) VALUE(1, 2);
+INSERT INTO users_roles (user_id, roles_id) VALUE(2, 2);

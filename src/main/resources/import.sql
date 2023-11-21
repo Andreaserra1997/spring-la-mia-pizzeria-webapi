@@ -14,6 +14,9 @@ INSERT INTO ingredients(name) VALUES('mozzarella');
 INSERT INTO ingredients(name) VALUES('basilico');
 INSERT INTO ingredients(name) VALUES('olio');
 
+INSERT INTO pizze_ingredients(pizza_id, ingredients_id) VALUES(1, 1);
+INSERT INTO pizze_ingredients(pizza_id, ingredients_id) VALUES(1, 2);
+
 INSERT INTO roles (id, name) VALUES(1, 'ADMIN');
 INSERT INTO roles (id, name) VALUES(2, 'USER');
 

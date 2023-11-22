@@ -1,5 +1,6 @@
 const baseUrl = "http://localhost:8080/api/v1/pizze";
 const root = document.getElementById("root");
+const filterInput = document.getElementById("filterInput");
 
 const renderIngredients = (ingredients) => {
   let content;
@@ -44,7 +45,6 @@ const renderPizzaList = (data) => {
   } else {
     content = '<div class="alert alert-info">La lista è vuota</div>';
   }
-  // sostituisco il contenuto di root con il mio content
   root.innerHTML = content;
 };
 
@@ -56,5 +56,21 @@ const getPizza = async () => {
     console.log(error);
   }
 };
+
+const getPizzaFiltered = async () => {
+  const filterValue = filterInput.value.toLowerCase();
+
+  try {
+    const response = await axios.get(baseUrl);
+    const filteredData = response.data.filter((pizza) =>
+      pizza.name.toLowerCase().includes(filterValue)
+    );
+    renderPizzaList(filteredData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+filterInput.addEventListener("input", getPizzaFiltered);
 
 getPizza();
